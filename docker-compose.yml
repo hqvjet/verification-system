@@ -1,0 +1,23 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    networks:
+      - mynetwork
+
+  contracts:
+    build:
+      context: ./contracts
+    environment:
+      - NETWORK=rinkeby
+    networks:
+      - mynetwork
+    command: truffle migrate --network rinkeby
+
+networks:
+  mynetwork:
+    driver: bridge
+
