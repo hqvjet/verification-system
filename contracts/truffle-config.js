@@ -3,12 +3,12 @@ module.exports = {
     development: {
       host: "ganache",
       port: 9545,
-      network_id: 5777,
+      network_id: "5777",
     }
   },
   compilers: {
     solc: {
-      version: "0.8.21"
+      version: "0.8.13"
     }
   }
 };

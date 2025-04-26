@@ -1,77 +1,49 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.21;
-contract ProductManager {
-    // Cấu trúc lưu trữ thông tin sản phẩm
+pragma solidity ^0.8.13;
+
+contract ProductAuthenticity {
     struct Product {
         string name;
         string manufacturer;
-        string productionDate;
+        uint256 manufactureDate;
         string productId;
     }
-    
-    // Mapping để lưu trữ sản phẩm theo ID
-    mapping(string => Product) public products;
-    
-    // Mảng lưu trữ tất cả các productId
-    string[] public productIds;
-    
-    // Sự kiện khi thêm sản phẩm mới
-    event ProductAdded(
-        string name,
-        string manufacturer,
-        string productionDate,
-        string productId
-    );
-    
-    // Thêm sản phẩm mới
+
+    // Mapping từ mã sản phẩm đến thông tin sản phẩm
+    mapping(string => Product) private products;
+
+    // Event khi sản phẩm mới được thêm
+    event ProductAdded(string indexed productId, string name, string manufacturer, uint256 manufactureDate);
+
+    // Hàm thêm sản phẩm mới
     function addProduct(
         string memory _name,
         string memory _manufacturer,
-        string memory _productionDate,
+        uint256 _manufactureDate,
         string memory _productId
     ) public {
-        // Kiểm tra xem productId đã tồn tại chưa
-        require(bytes(products[_productId].productId).length == 0, "Product ID already exists");
-        
-        // Tạo sản phẩm mới
-        Product memory newProduct = Product({
+        require(bytes(products[_productId].productId).length == 0, "Product already exists");
+        products[_productId] = Product({
             name: _name,
             manufacturer: _manufacturer,
-            productionDate: _productionDate,
+            manufactureDate: _manufactureDate,
             productId: _productId
         });
-        
-        // Lưu vào mapping
-        products[_productId] = newProduct;
-        
-        // Thêm vào mảng productIds
-        productIds.push(_productId);
-        
-        // Kích hoạt sự kiện
-        emit ProductAdded(_name, _manufacturer, _productionDate, _productId);
+
+        emit ProductAdded(_productId, _name, _manufacturer, _manufactureDate);
     }
-    
-    // Lấy thông tin sản phẩm
+
+    // Hàm truy vấn thông tin sản phẩm
     function getProduct(string memory _productId) public view returns (
-        string memory,
-        string memory,
-        string memory,
-        string memory
+        string memory name,
+        string memory manufacturer,
+        uint256 manufactureDate,
+        string memory productId
     ) {
-        Product memory product = products[_productId];
-        require(bytes(product.productId).length != 0, "Product does not exist");
-        
-        return (
-            product.name,
-            product.manufacturer,
-            product.productionDate,
-            product.productId
-        );
-    }
-    
-    // Lấy tổng số sản phẩm
-    function getProductCount() public view returns (uint) {
-        return productIds.length;
+        require(bytes(products[_productId].productId).length != 0, "Product does not exist");
+
+        Product memory p = products[_productId];
+        return (p.name, p.manufacturer, p.manufactureDate, p.productId);
     }
 }
 

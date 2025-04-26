@@ -14,6 +14,8 @@ services:
       - "5777"
       - -m
       - "test test test test test test test test test test test junk"
+      - --gasLimit
+      - "8000000"
 
   contracts:
     build: ./contracts
@@ -21,9 +23,9 @@ services:
       - ganache
     networks:
       - app-network
-    command: sh -c "./wait-for-ganache.sh"
     volumes:
       - ./contracts:/app
+    command: sh -c "./wait-for-ganache.sh && truffle migrate --reset --network development"
 
   test:
     build: ./test
