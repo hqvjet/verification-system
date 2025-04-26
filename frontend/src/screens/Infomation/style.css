@@ -1,0 +1,281 @@
+.information {
+    background-color: #eafcf3;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .information .frame-wrapper {
+    background-color: #eafcf3;
+    height: 932px;
+    width: 430px;
+  }
+  
+  .information .frame {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 845px;
+    justify-content: space-between;
+    left: 47px;
+    position: relative;
+    top: 44px;
+    width: 337px;
+  }
+  
+  .information .group {
+    align-self: stretch;
+    height: 72px;
+    margin-right: -2.00px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .information .back {
+    height: 41px;
+    left: 0;
+    position: absolute;
+    top: 15px;
+    width: 41px;
+  }
+  
+  .information .text-wrapper {
+    color: #000000;
+    font-family: "Inknut Antiqua", Helvetica;
+    font-size: 28px;
+    font-weight: 400;
+    height: 72px;
+    left: 110px;
+    letter-spacing: 0.03px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 119px;
+  }
+  
+  .information .share {
+    height: 41px;
+    left: 297px;
+    position: absolute;
+    top: 15px;
+    width: 40px;
+  }
+  
+  .information .div {
+    align-self: stretch;
+    height: 644.01px;
+    margin-right: -2.00px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .information .interaction-states {
+    border-color: var(--material-3state-layersdarksecondaryopacity-016);
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px #00000040;
+    height: 582px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 62px;
+    width: 336px;
+  }
+  
+  .information .list-item-container {
+    align-items: center;
+    background-color: #b6eae8;
+    border-bottom-style: solid;
+    border-bottom-width: 0.5px;
+    border-color: #2f2020;
+    display: flex;
+    gap: 12px;
+    left: 0;
+    padding: 12px 20px 12px 16px;
+    position: absolute;
+    top: 0;
+    width: 337px;
+  }
+  
+  .information .vector {
+    height: 21px;
+    position: relative;
+    width: 22px;
+  }
+  
+  .information .text-container {
+    align-items: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+  }
+  
+  .information .headline {
+    align-self: stretch;
+    color: #020202;
+    font-family: var(--material-3-title-medium-font-family);
+    font-size: var(--material-3-title-medium-font-size);
+    font-style: var(--material-3-title-medium-font-style);
+    font-weight: var(--material-3-title-medium-font-weight);
+    letter-spacing: var(--material-3-title-medium-letter-spacing);
+    line-height: var(--material-3-title-medium-line-height);
+    margin-top: -1.00px;
+    position: relative;
+  }
+  
+  .information .supporting-text {
+    align-self: stretch;
+    color: #293333;
+    font-family: var(--material-3-body-medium-font-family);
+    font-size: var(--material-3-body-medium-font-size);
+    font-style: var(--material-3-body-medium-font-style);
+    font-weight: var(--material-3-body-medium-font-weight);
+    letter-spacing: var(--material-3-body-medium-letter-spacing);
+    line-height: var(--material-3-body-medium-line-height);
+    position: relative;
+  }
+  
+  .information .list-item-container-2 {
+    align-items: center;
+    background-color: #b6eae8;
+    border-bottom-style: solid;
+    border-bottom-width: 0.5px;
+    border-color: #2f2020;
+    display: flex;
+    gap: 12px;
+    left: 0;
+    padding: 12px 20px 12px 16px;
+    position: absolute;
+    top: 68px;
+    width: 337px;
+  }
+  
+  .information .headline-2 {
+    align-self: stretch;
+    color: #000000;
+    font-family: var(--material-3-title-medium-font-family);
+    font-size: var(--material-3-title-medium-font-size);
+    font-style: var(--material-3-title-medium-font-style);
+    font-weight: var(--material-3-title-medium-font-weight);
+    letter-spacing: var(--material-3-title-medium-letter-spacing);
+    line-height: var(--material-3-title-medium-line-height);
+    margin-top: -1.00px;
+    position: relative;
+  }
+  
+  .information .list-item-container-3 {
+    align-items: center;
+    background-color: #b6eae8;
+    border-bottom-style: solid;
+    border-bottom-width: 0.5px;
+    border-color: #2f2020;
+    display: flex;
+    gap: 12px;
+    left: 0;
+    padding: 12px 20px 12px 16px;
+    position: absolute;
+    top: 136px;
+    width: 337px;
+  }
+  
+  .information .text-wrapper-2 {
+    color: #0b0b0b;
+    font-family: "Inknut Antiqua", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 1px;
+    letter-spacing: 0.02px;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    width: 336px;
+  }
+  
+  .information .overlap-group-wrapper {
+    height: 105px;
+    position: relative;
+    width: 336px;
+  }
+  
+  .information .overlap-group {
+    height: 126px;
+    position: relative;
+    top: -21px;
+  }
+  
+  .information .rectangle {
+    background-color: #2f84a6;
+    border-radius: 9px;
+    box-shadow: 0px 0px 46px #00000099;
+    height: 67px;
+    left: 0;
+    position: absolute;
+    top: 59px;
+    width: 336px;
+  }
+  
+  .information .group-2 {
+    height: 24px;
+    left: 10px;
+    position: absolute;
+    top: 95px;
+    width: 317px;
+  }
+  
+  .information .div-wrapper {
+    height: 24px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 89px;
+  }
+  
+  .information .text-wrapper-3 {
+    color: #ffffff;
+    font-family: "Itim", Helvetica;
+    font-size: 17px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0.02px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 87px;
+  }
+  
+  .information .group-3 {
+    height: 24px;
+    left: 230px;
+    position: absolute;
+    top: 0;
+    width: 89px;
+  }
+  
+  .information .ic-twotone-history {
+    height: 30px;
+    left: 268px;
+    position: absolute;
+    top: 65px;
+    width: 30px;
+  }
+  
+  .information .ic-round-qr-code {
+    height: 30px;
+    left: 38px;
+    position: absolute;
+    top: 65px;
+    width: 30px;
+  }
+  
+  .information .btn-camera {
+    height: 112px;
+    left: 112px;
+    position: absolute;
+    top: 0;
+    width: 112px;
+  }
+  
