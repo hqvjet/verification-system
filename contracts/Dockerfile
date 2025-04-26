@@ -1,18 +1,17 @@
-# Sử dụng Node.js image
 FROM node:16
 
-# Thiết lập thư mục làm việc
+RUN apt-get update && apt-get install -y netcat
+# Set working directory
 WORKDIR /app
 
-# Cài đặt Truffle và các dependencies cần thiết
+# Install Truffle globally
 RUN npm install -g truffle
 
-# Sao chép toàn bộ mã nguồn vào container
+# Copy rest of the code
 COPY . .
 
-# Cài đặt các dependencies của dự án (nếu có package.json)
-RUN npm install
+# Make wait-for-ganache.sh executable (nếu bạn dùng wait script)
+RUN chmod +x ./wait-for-ganache.sh
 
-# Lệnh để deploy contract (thay đổi nếu cần)
-CMD ["truffle", "migrate", "--network", "rinkeby"]
-
+# Default command (overridden by docker-compose)
+CMD ["truffle", "migrate", "--reset", "--network", "development"]

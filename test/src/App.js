@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
-import ProductAuthenticity from './abis/ProductAuthenticity.json';
+import ProductAuthenticity from './build-contracts/ProductAuthenticity.json';
 
 function App() {
   const [account, setAccount] = useState('');
@@ -20,8 +20,10 @@ function App() {
       const accounts = await web3.eth.getAccounts();
       setAccount(accounts[0]);
 
-      const networkId = await web3.eth.net.getId();
+      const networkId = 5777
       const networkData = ProductAuthenticity.networks[networkId];
+      console.log("Đang connect vào networkId:", networkId);
+
       if (networkData) {
         const abi = ProductAuthenticity.abi;
         const address = networkData.address;
@@ -41,8 +43,10 @@ function App() {
           const timestamp = Math.floor(new Date(manufactureDate).getTime() / 1000);
           console.log('Gửi dữ liệu:', { name, manufacturer, timestamp, productId });
 
-        await contract.methods.addProduct(name, manufacturer, timestamp, productId)
-          .send({ from: account, gas: 3000000 });
+        const receipt = await contract.methods.addProduct(name, manufacturer, timestamp, productId)
+          .send({ from: account, gas: 3000000, gasPrice: '20000000000' });
+
+      console.log('Receipt:', receipt);
 
           alert('Thêm sản phẩm thành công!');
         } catch (error) {
@@ -52,17 +56,27 @@ function App() {
       }
     };
 
-  const getProduct = async () => {
-    if (contract) {
-      try {
-        const product = await contract.methods.getProduct(queryId).call();
-        setQueriedProduct(product);
-      } catch (error) {
-        console.error(error);
-        alert('Không tìm thấy sản phẩm!');
-      }
+const getProduct = async () => {
+  if (contract) {
+    try {
+      const result = await contract.methods.getProduct(queryId).call();
+      console.log("Raw product result:", result);
+
+      // result sẽ là 1 array hoặc object key: 0,1,2,3
+      const product = {
+        name: result[0],
+        manufacturer: result[1],
+        manufactureDate: result[2],
+        productId: result[3]
+      };
+
+      setQueriedProduct(product);
+    } catch (error) {
+      console.error('Error khi truy vấn sản phẩm:', error);
+      alert('Không tìm thấy sản phẩm!');
     }
-  };
+  }
+};
 
   return (
     <div style={{ padding: '20px' }}>

@@ -1,23 +1,43 @@
-version: '3'
 services:
-  frontend:
-    build:
-      context: ./frontend
+  ganache:
+    image: trufflesuite/ganache-cli
     ports:
-      - "3000:80"
+      - "9545:9545"
     networks:
-      - mynetwork
+      - app-network
+    command:
+      - -h
+      - "0.0.0.0"
+      - -p
+      - "9545"
+      - -i
+      - "5777"
+      - -m
+      - "test test test test test test test test test test test junk"
 
   contracts:
-    build:
-      context: ./contracts
-    environment:
-      - NETWORK=rinkeby
+    build: ./contracts
+    depends_on:
+      - ganache
     networks:
-      - mynetwork
-    command: truffle migrate --network rinkeby
+      - app-network
+    command: sh -c "./wait-for-ganache.sh"
+    volumes:
+      - ./contracts:/app
+
+  test:
+    build: ./test
+    depends_on:
+      - contracts
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    volumes:
+      - ./test:/app
+      - ./contracts/build/contracts:/app/src/build-contracts
 
 networks:
-  mynetwork:
+  app-network:
     driver: bridge
 
