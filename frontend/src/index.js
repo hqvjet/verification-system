@@ -7,6 +7,7 @@ import { Start } from './screens/Start/Start';
 import { Home } from './screens/Home/Home';
 import reportWebVitals from './reportWebVitals';
 import { Information } from "./screens/Infomation/Infomation"; // Import Information
+import { AddProduct } from "./screens/AddProduct/addproduct"; // Import AddProduct
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +18,7 @@ root.render(
         <Route path="/" element={<Start />} /> {/* Trang Start */}
         <Route path="/home" element={<Home />} /> {/* Trang Home */}
         <Route path="/information" element={<Information />} /> {/* Route Information */}
+        <Route path="/addproduct" element={<AddProduct />} /> {/* Route AddProduct */}
       </Routes>
     </Router>
   </React.StrictMode>

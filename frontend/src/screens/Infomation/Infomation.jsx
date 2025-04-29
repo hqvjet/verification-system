@@ -71,7 +71,7 @@ export const Information = () => {
               className="back"
               alt="Back"
               src="https://c.animaapp.com/MwpduQAg/img/back.svg"
-              onClick={handleNavigateToBackHome}
+              onClick={handleNavigateToBackHome} // Gọi hàm điều hướng khi nhấn nút quay lại
             />
 
             <div className="text-wrapper">Result</div>
