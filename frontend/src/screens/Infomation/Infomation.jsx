@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate
 import Web3 from "web3";
-import ProductAuthenticity from "../../build-contracts/ProductAuthenticity.json";
+import ProductAuthenticity from '../../build-contracts/ProductAuthenticity.json';
 import "./style.css";
 
 export const Information = () => {
-  const [account, setAccount] = useState(""); // Tài khoản hiện tại
   const [contract, setContract] = useState(null); // Hợp đồng thông minh
   const [product, setProduct] = useState(null); // Thông tin sản phẩm
+  const [qid, setQid] = useState('');
   const navigate = useNavigate(); // Khởi tạo hook điều hướng
+  const location = useLocation();
 
   // Kết nối blockchain và hợp đồng thông minh
   useEffect(() => {
     async function loadBlockchainData() {
       const web3 = new Web3("http://localhost:9545"); // Kết nối với Ganache
-
-      const accounts = await web3.eth.getAccounts(); // Lấy danh sách tài khoản
-      setAccount(accounts[0]); // Lưu tài khoản đầu tiên
 
       const networkId = 5777; // ID mạng blockchain
       const networkData = ProductAuthenticity.networks[networkId]; // Dữ liệu mạng của hợp đồng thông minh
@@ -30,33 +28,45 @@ export const Information = () => {
         alert("Hợp đồng thông minh chưa được triển khai trên mạng này.");
       }
     }
+    const queryParams = new URLSearchParams(location.search);
+    const qid = queryParams.get('id');
+    setQid(qid);
+    console.log('Gửi dữ liệu:', qid);
 
     loadBlockchainData();
   }, []);
 
-  // Truy vấn sản phẩm từ hợp đồng thông minh
-  useEffect(() => {
-    async function fetchProduct() {
-      if (contract) {
-        try {
-          const productId = "P001"; // Mã sản phẩm cần truy vấn
-          const result = await contract.methods.getProduct(productId).call(); // Gọi hàm truy vấn
-          const productData = {
-            productName: result[0],
-            manufacturer: result[1],
-            productionDate: new Date(Number(result[2]) * 1000).toLocaleDateString(),
-            productId: result[3],
-          };
-          setProduct(productData); // Lưu thông tin sản phẩm
-        } catch (error) {
-          console.error("Lỗi khi truy vấn sản phẩm:", error);
-          alert("Không tìm thấy sản phẩm!");
-        }
-      }
-    }
+    useEffect(() => {
+        const getProduct = async () => {
+          if (contract) {
+            try {
 
-    fetchProduct();
-  }, [contract]);
+              const result = await contract.methods.getProduct(qid).call();
+              console.log("Raw product result:", result);
+
+              // result sẽ là 1 array hoặc object key: 0,1,2,3
+              const temp_product = {
+                name: result[0],
+                manufacturer: result[1],
+                manufactureDate: result[2],
+              };
+
+              console.log("Queried product:", temp_product);
+            setProduct(temp_product);
+
+              // setQueriedProduct(product);
+            } catch (error) {
+              console.error('Error khi truy vấn sản phẩm:', error);
+              alert('Không tìm thấy sản phẩm!');
+            }
+          }
+        };
+
+        getProduct();
+    }, [contract]);
+
+
+
 
   const handleNavigateToBackHome = () => {
     navigate("/home"); // Điều hướng về trang Home
@@ -95,7 +105,7 @@ export const Information = () => {
 
                 <div className="text-container">
                   <div className="headline">Name Product</div>
-                  <p className="supporting-text">{product?.productName || "N/A"}</p>
+                  <p className="supporting-text">{product?.name || "N/A"}</p>
                 </div>
               </div>
 
@@ -109,7 +119,7 @@ export const Information = () => {
 
                 <div className="text-container">
                   <div className="headline-2">Date of manufacture</div>
-                  <p className="supporting-text">{product?.productionDate || "N/A"}</p>
+                  <p className="supporting-text">{product?.manufactureDate || "N/A"}</p>
                 </div>
               </div>
 
