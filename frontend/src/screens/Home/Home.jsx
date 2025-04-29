@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./style.css";
 
 export const Home = () => {
   const videoRef = useRef(null); // Tạo tham chiếu đến thẻ video
-    const navigate = useNavigate(); // Khởi tạo hook điều hướng
+  const navigate = useNavigate(); // Khởi tạo hook điều hướng
+
   useEffect(() => {
     const requestCameraAccess = async () => {
       try {
@@ -19,13 +20,16 @@ export const Home = () => {
       } catch (error) {
         console.error("Camera access denied:", error);
       }
+
     };
 
-    requestCameraAccess(); // Gọi hàm yêu cầu quyền truy cập camera
-  }, []); // Chỉ chạy một lần khi component được mount
+    requestCameraAccess();
+  }, []);
 
     const handleNavigateToInformation = () => {
-        navigate("/information"); // Điều hướng đến trang Information
+        // Need to do scan action to get product id
+        const product_id = "1";
+        navigate(`/information?id=${encodeURIComponent(product_id)}`); // Điều hướng đến trang Information
     };
     const handleNavigateToAddProduct = () => {
         navigate("/addproduct"); // Điều hướng đến trang AddProduct
@@ -40,7 +44,7 @@ export const Home = () => {
               <div className="div">
                 <img
                   className="clarity-image"
-                  alt="Clarity image"
+                  alt="Clarity"
                   src="https://c.animaapp.com/c8N46bgw/img/clarity-image-gallery-solid.svg"
                 />
 
@@ -93,7 +97,7 @@ export const Home = () => {
               </div>
               <div className="group-2">
                 <div className="div-wrapper">
-                  <div className="text-wrapper">Generate</div>
+                  <div className="text-wrapper" onClick={handleNavigateToInformation}>Generate</div>
                 </div>
 
                 <div className="group-3">

@@ -24,19 +24,16 @@ services:
     networks:
       - app-network
     volumes:
-      - ./contracts:/app
-    command: sh -c "./wait-for-ganache.sh && truffle migrate --reset --network development"
+      - ./contracts/build:/contracts/build
+    command: sh -c "./wait-for-ganache.sh && truffle migrate --reset --network development && tail -f /dev/null"
 
-  test:
-    build: ./test
-    depends_on:
-      - contracts
+  frontend:
+    build: ./frontend
     ports:
       - "3000:3000"
     networks:
       - app-network
     volumes:
-      - ./test:/app
       - ./contracts/build/contracts:/app/src/build-contracts
 
 networks:

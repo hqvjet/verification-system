@@ -2,7 +2,7 @@ FROM node:16
 
 RUN apt-get update && apt-get install -y netcat
 # Set working directory
-WORKDIR /app
+WORKDIR /contracts
 
 # Install Truffle globally
 RUN npm install -g truffle
