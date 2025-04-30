@@ -1,14 +1,91 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import JsBarcode from "jsbarcode";
+import Web3 from 'web3';
+import ProductAuthenticity from '../../build-contracts/ProductAuthenticity.json';
 import "./style.css";
 
 export const AddProduct = () => {
-    const navigate = useNavigate(); // Khởi tạo hook điều hướng
-    const handleNavigateToBackHome = () => {
-        navigate("/home"); // Điều hướng về trang Home
-        };
+  const navigate = useNavigate();
+  const barcodeRef = useRef(null);
+  const [account, setAccount] = useState('');
+  const [contract, setContract] = useState(null);
+
+  const [name, setName] = useState('');
+  const [manufacturer, setManufacturer] = useState('');
+  const [manufactureDate, setManufactureDate] = useState('');
+  const [productId, setProductId] = useState('');
+
+  useEffect(() => {
+    async function loadBlockchainData() {
+      const web3 = new Web3('http://localhost:9545');
+
+      const accounts = await web3.eth.getAccounts();
+      setAccount(accounts[0]);
+
+      const networkId = 5777;
+      const networkData = ProductAuthenticity.networks[networkId];
+
+      if (networkData) {
+        const abi = ProductAuthenticity.abi;
+        const address = networkData.address;
+        const contractInstance = new web3.eth.Contract(abi, address);
+        setContract(contractInstance);
+      } else {
+        alert('Smart contract chưa deploy vào network này.');
+      }
+    }
+
+    loadBlockchainData();
+  }, []);
+
+    useEffect(() => {
+      if (productId && barcodeRef.current) {
+        JsBarcode(barcodeRef.current, productId, {
+          format: "CODE128",
+          lineColor: "#000",
+          width: 2,
+          height: 60,
+          displayValue: true,
+        });
+      }
+    }, [productId]);
+
+
+  const handleNavigateToBackHome = () => {
+    navigate("/home");
+  };
+
+  const handleAddProduct = async () => {
+    if (!name || !manufacturer || !manufactureDate) {
+      alert("Vui lòng điền đầy đủ thông tin sản phẩm.");
+      return;
+    }
+
+    // Tạo product ID ngẫu nhiên (có thể thay bằng hash nếu cần)
+    const generatedId = `PROD-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+    setProductId(generatedId);
+
+    if (contract) {
+      try {
+        await contract.methods.addProduct(
+          name,
+          manufacturer,
+          Math.floor(new Date(manufactureDate).getTime() / 1000),
+          generatedId,
+        ).send({ from: account, gas: 3000000, gasPrice: '20000000000' });
+
+        alert(`Thêm sản phẩm thành công với ID: ${generatedId}`);
+        // Có thể điều hướng hoặc hiển thị QR/barcode ở đây
+      } catch (error) {
+        console.error("Giao dịch thất bại:", error);
+        alert("Thêm sản phẩm thất bại.");
+      }
+    }
+  };
+
   return (
-    <div className="add-product" data-model-id="12:4">
+    <div className="add-product">
       <div className="frame-wrapper">
         <div className="frame">
           <div className="group">
@@ -20,9 +97,7 @@ export const AddProduct = () => {
                 onClick={handleNavigateToBackHome}
               />
             </div>
-
             <div className="text-wrapper">Add Product</div>
-
             <img
               className="share"
               alt="Share"
@@ -35,67 +110,51 @@ export const AddProduct = () => {
           </div>
 
           <div className="frame-2">
+            {/* Tên sản phẩm */}
             <div className="frame-3">
               <div className="text-wrapper-2">Name Product</div>
-
-              <div className="frame-4" />
+              <input
+                className="frame-4"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter product name"
+              />
             </div>
 
+            {/* Nhà sản xuất */}
             <div className="frame-5">
-              <div className="text-wrapper-2">Manufacture Product</div>
-
-              <div className="frame-4" />
+              <div className="text-wrapper-2">Manufacturer</div>
+              <input
+                className="frame-4"
+                type="text"
+                value={manufacturer}
+                onChange={(e) => setManufacturer(e.target.value)}
+                placeholder="Enter manufacturer"
+              />
             </div>
 
+            {/* Ngày sản xuất */}
             <div className="frame-6">
               <div className="text-wrapper-2">Date of Manufacture Product</div>
-
-              <div className="frame-4" />
+              <input
+                className="frame-4"
+                type="date"
+                value={manufactureDate}
+                onChange={(e) => setManufactureDate(e.target.value)}
+              />
             </div>
 
-            <div className="frame-7">
-              <div className="text-wrapper-2">Code Product</div>
-
-              <div className="frame-4" />
-            </div>
-
-            <button className="btn-start">
+            {/* Nút thêm sản phẩm */}
+            <button className="btn-start" onClick={handleAddProduct}>
               <div className="text-wrapper-3">Add</div>
             </button>
-          </div>
-
-          <div className="overlap-group-wrapper">
-            <div className="overlap-group">
-              <div className="rectangle" />
-
-              <div className="group-2">
-                <div className="group-3">
-                  <div className="text-wrapper-4">Generate</div>
-                </div>
-
-                <div className="group-4">
-                  <div className="text-wrapper-4">History</div>
-                </div>
+            {productId && (
+              <div style={{ marginTop: "30px", textAlign: "center" }}>
+                <h4>Mã vạch sản phẩm:</h4>
+                <svg ref={barcodeRef}></svg>
               </div>
-
-              <img
-                className="ic-twotone-history"
-                alt="Ic twotone history"
-                src="https://c.animaapp.com/MuC7sd4b/img/ic-twotone-history.svg"
-              />
-
-              <img
-                className="ic-round-qr-code"
-                alt="Ic round qr code"
-                src="https://c.animaapp.com/MuC7sd4b/img/ic-round-qr-code-2.svg"
-              />
-
-              <img
-                className="btn-camera"
-                alt="Btn camera"
-                src="https://c.animaapp.com/MuC7sd4b/img/btn-camera@2x.png"
-              />
-            </div>
+            )}
           </div>
         </div>
       </div>

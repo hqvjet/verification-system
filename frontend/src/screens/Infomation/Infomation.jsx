@@ -48,7 +48,7 @@ export const Information = () => {
               const temp_product = {
                 name: result[0],
                 manufacturer: result[1],
-                manufactureDate: result[2],
+                manufactureDate: new Date(result[2] * 1000).toISOString().slice(0, 10)
               };
 
               console.log("Queried product:", temp_product);

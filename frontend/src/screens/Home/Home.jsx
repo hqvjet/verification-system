@@ -1,30 +1,60 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import Quagga from "@ericblade/quagga2";
 import "./style.css";
 
 export const Home = () => {
   const videoRef = useRef(null); // Tạo tham chiếu đến thẻ video
   const navigate = useNavigate(); // Khởi tạo hook điều hướng
+  const [scannedCode, setScannedCode] = useState("");
 
   useEffect(() => {
-    const requestCameraAccess = async () => {
+    const startScanner = async () => {
       try {
-        // Yêu cầu quyền truy cập camera
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        console.log("Camera access granted:", stream);
+        await navigator.mediaDevices.getUserMedia({ video: true });
 
-        // Gắn stream vào thẻ video
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
+        Quagga.init({
+          inputStream: {
+            type: "LiveStream",
+            target: videoRef.current,
+            constraints: {
+              width: 276,
+              height: 278,
+              facingMode: "environment"
+            }
+          },
+          decoder: {
+            readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"]
+          }
+        }, (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          Quagga.start();
+        });
+
+        Quagga.onDetected((result) => {
+          const code = result.codeResult.code;
+          console.log("Scanned code:", code);
+          setScannedCode(code);
+
+          // Stop quagga and điều hướng
+          Quagga.stop();
+          navigate(`/information?id=${encodeURIComponent(code)}`);
+        });
+
       } catch (error) {
-        console.error("Camera access denied:", error);
+        console.error("Camera access error:", error);
       }
-
     };
 
-    requestCameraAccess();
-  }, []);
+    startScanner();
+
+    return () => {
+      Quagga.stop();
+    };
+  }, [navigate]);
 
     const handleNavigateToInformation = () => {
         // Need to do scan action to get product id
@@ -67,12 +97,12 @@ export const Home = () => {
             <div className="overlap">
               {/* Thay thế div camera bằng video */}
               <div className="camera">
-                <video
+                <div
                   ref={videoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  style={{ width: "276px", height: "278px" }}
+                  // autoPlay
+                  // playsInline
+                  // muted
+                  // style={{ width: "200px", height: "278px" }}
                 />
               </div>
 
