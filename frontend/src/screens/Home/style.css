@@ -184,4 +184,27 @@
     top: 0;
     width: 112px;
   }
+
+  .home .addproduct {
+    height: 112px;
+    left: 112px;
+    position: absolute;
+    top: 0;
+    width: 112px;
+  }
+
+  .home .add-product {
+    display: flex;
+    position: absolute;
+    cursor: pointer;
+    margin-top: 20px; /* Khoảng cách trên */
+  }
+  
+  .home .add-product-img {
+    height: 40px;
+    width: 40px;
+    left: 270px;
+    position: absolute;
+    bottom: -30px;
+  }
   

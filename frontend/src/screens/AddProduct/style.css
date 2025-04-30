@@ -1,0 +1,285 @@
+.add-product {
+    background-color: #eafcf3;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .add-product .frame-wrapper {
+    background-color: #eafcf3;
+    height: 932px;
+    width: 430px;
+  }
+  
+  .add-product .frame {
+    align-items: center;
+    display: inline-flex;
+    flex-direction: column;
+    height: 845px;
+    justify-content: space-between;
+    left: 48px;
+    position: relative;
+    top: 44px;
+  }
+  
+  .add-product .group {
+    align-self: stretch;
+    height: 72px;
+    margin-right: -2.00px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .add-product .back {
+    background-color: #2f84a6;
+    border-radius: 8px;
+    height: 41px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 17px;
+    width: 41px;
+  }
+  
+  .add-product .vector {
+    height: 18px;
+    left: 11px;
+    position: absolute;
+    top: 10px;
+    width: 20px;
+  }
+  
+  .add-product .text-wrapper {
+    color: #000000;
+    font-family: "Inknut Antiqua", Helvetica;
+    font-size: 28px;
+    font-weight: 400;
+    height: 72px;
+    left: 56px;
+    letter-spacing: 0.03px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 224px;
+    padding-top: 20px;
+  }
+  
+  .add-product .share {
+    height: 41px;
+    left: 296px;
+    position: absolute;
+    top: 17px;
+    width: 40px;
+  }
+  
+  .add-product .div-wrapper {
+    align-self: stretch;
+    height: 54px;
+    margin-right: -2.00px;
+    margin-top: -3px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .add-product .div {
+    color: #0b0b0b;
+    font-family: "Inknut Antiqua", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0.02px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 336px;
+  }
+  
+  .add-product .frame-2 {
+    background: linear-gradient(
+      195deg,
+      rgba(47, 133, 167, 0.29) 47%,
+      rgba(234, 252, 243, 0.29) 83%
+    );
+    border-radius: 14px;
+    height: 623px;
+    margin-top: -3px;
+    overflow: hidden;
+    position: relative;
+    width: 331px;
+  }
+  
+  .add-product .frame-3 {
+    height: 71px;
+    left: 21px;
+    position: absolute;
+    top: 21px;
+    width: 290px;
+  }
+  
+  .add-product .text-wrapper-2 {
+    color: #000000;
+    font-family: "Roboto", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    height: 37px;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: justify;
+    top: -1px;
+    width: 290px;
+    padding-top: 10px;
+  }
+  
+  .add-product .frame-4 {
+    border: 1px solid;
+    border-color: #2f84a6;
+    border-radius: 6px;
+    height: 34px;
+    left: 20px;
+    position: absolute;
+    top: 37px;
+    width: 251px;
+  }
+  
+  .add-product .frame-5 {
+    height: 71px;
+    left: 21px;
+    position: absolute;
+    top: 92px;
+    width: 290px;
+  }
+  
+  .add-product .frame-6 {
+    height: 71px;
+    left: 21px;
+    position: absolute;
+    top: 163px;
+    width: 290px;
+  }
+  
+  .add-product .frame-7 {
+    height: 71px;
+    left: 21px;
+    position: absolute;
+    top: 234px;
+    width: 290px;
+  }
+  
+  .add-product .btn-start {
+    all: unset;
+    border: 3px solid;
+    border-color: #145ab5;
+    border-radius: 58px;
+    box-sizing: border-box;
+    height: 44px;
+    left: 97px;
+    overflow: hidden;
+    position: absolute;
+    top: 558px;
+    width: 138px;
+  }
+  
+  .add-product .text-wrapper-3 {
+    color: #000000;
+    font-family: "Inknut Antiqua", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    left: 46px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: -7px;
+    padding-top: 15px;
+  }
+  
+  .add-product .overlap-group-wrapper {
+    height: 105px;
+    margin-top: -3px;
+    position: relative;
+    width: 336px;
+  }
+  
+  .add-product .overlap-group {
+    height: 126px;
+    position: relative;
+    top: -21px;
+  }
+  
+  .add-product .rectangle {
+    background-color: #2f84a6;
+    border-radius: 9px;
+    box-shadow: 0px 0px 46px #00000099;
+    height: 67px;
+    left: 0;
+    position: absolute;
+    top: 59px;
+    width: 336px;
+  }
+  
+  .add-product .group-2 {
+    height: 24px;
+    left: 10px;
+    position: absolute;
+    top: 95px;
+    width: 317px;
+  }
+  
+  .add-product .group-3 {
+    height: 24px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 89px;
+  }
+  
+  .add-product .text-wrapper-4 {
+    color: #ffffff;
+    font-family: "Itim", Helvetica;
+    font-size: 17px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0.02px;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 87px;
+  }
+  
+  .add-product .group-4 {
+    height: 24px;
+    left: 230px;
+    position: absolute;
+    top: 0;
+    width: 89px;
+  }
+  
+  .add-product .ic-twotone-history {
+    height: 30px;
+    left: 268px;
+    position: absolute;
+    top: 65px;
+    width: 30px;
+  }
+  
+  .add-product .ic-round-qr-code {
+    height: 30px;
+    left: 38px;
+    position: absolute;
+    top: 65px;
+    width: 30px;
+  }
+  
+  .add-product .btn-camera {
+    height: 112px;
+    left: 112px;
+    position: absolute;
+    top: 0;
+    width: 112px;
+  }
+  

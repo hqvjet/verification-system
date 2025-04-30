@@ -31,6 +31,9 @@ export const Home = () => {
         const product_id = "1";
         navigate(`/information?id=${encodeURIComponent(product_id)}`); // Điều hướng đến trang Information
     };
+    const handleNavigateToAddProduct = () => {
+        navigate("/addproduct"); // Điều hướng đến trang AddProduct
+    };
 
   return (
     <div className="home">
@@ -84,7 +87,14 @@ export const Home = () => {
           <div className="overlap-wrapper">
             <div className="overlap-2">
               <div className="rectangle" />
-
+              <div className="add-product" >
+              <img
+                className="add-product-img"
+                alt="Add Product"
+                src="https://cdn-icons-png.flaticon.com/512/992/992651.png"
+                onClick={handleNavigateToAddProduct} // Điều hướng khi click
+              />
+              </div>
               <div className="group-2">
                 <div className="div-wrapper">
                   <div className="text-wrapper" onClick={handleNavigateToInformation}>Generate</div>
@@ -107,14 +117,16 @@ export const Home = () => {
                 src="https://c.animaapp.com/c8N46bgw/img/ic-round-qr-code-2.svg"
               />
 
-            <img
-                className="btn-camera"
-                alt="Btn camera"
-                src="https://c.animaapp.com/c8N46bgw/img/btn-camera@2x.png"
-                onClick={handleNavigateToInformation} // Điều hướng khi click
-              />
+              <img
+                  className="btn-camera"
+                  alt="Btn camera"
+                  src="https://c.animaapp.com/c8N46bgw/img/btn-camera@2x.png"
+                  onClick={handleNavigateToInformation} // Điều hướng khi click
+                />
             </div>
+
           </div>
+          
         </div>
       </div>
     </div>
