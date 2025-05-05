@@ -10,6 +10,7 @@ export const AddProduct = () => {
   const barcodeRef = useRef(null);
   const [account, setAccount] = useState('');
   const [contract, setContract] = useState(null);
+  const [showDownload, setShowDownload] = useState(false);
 
   const [name, setName] = useState('');
   const [manufacturer, setManufacturer] = useState('');
@@ -42,11 +43,11 @@ export const AddProduct = () => {
     useEffect(() => {
       if (productId && barcodeRef.current) {
         JsBarcode(barcodeRef.current, productId, {
-          format: "CODE128",
+          format: "UPC",
           lineColor: "#000",
           width: 2,
           height: 60,
-          displayValue: true,
+          displayValue: false,
         });
       }
     }, [productId]);
@@ -62,9 +63,32 @@ export const AddProduct = () => {
       return;
     }
 
-    // Tạo product ID ngẫu nhiên (có thể thay bằng hash nếu cần)
-    const generatedId = `PROD-${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-    setProductId(generatedId);
+      // Tạo mã sản phẩm 11 chữ số ngẫu nhiên
+      let randomId = Math.floor(Math.random() * 100000000000).toString().padStart(11, '0'); // Đảm bảo có 11 chữ số
+
+      // Tính toán checksum cho UPC-A
+      let sumOdd = 0, sumEven = 0;
+
+      // Duyệt qua từng chữ số để tính tổng
+      for (let i = 0; i < 11; i++) {
+        let digit = parseInt(randomId[i]);
+        if (i % 2 === 0) {
+          sumOdd += digit; // Chữ số ở vị trí lẻ (bắt đầu từ 0)
+        } else {
+          sumEven += digit; // Chữ số ở vị trí chẵn
+        }
+      }
+
+      // Tính tổng kiểm tra
+      let total = sumOdd * 3 + sumEven;
+      let remainder = total % 10;
+      let checksum = remainder === 0 ? 0 : 10 - remainder;
+
+      // Thêm checksum vào cuối mã sản phẩm để tạo mã UPC-A
+      let upc = randomId + checksum;
+
+      // Cập nhật mã sản phẩm
+      setProductId(upc); // Cập nhật với UPC hợp lệ
 
     if (contract) {
       try {
@@ -72,10 +96,10 @@ export const AddProduct = () => {
           name,
           manufacturer,
           Math.floor(new Date(manufactureDate).getTime() / 1000),
-          generatedId,
+          upc,
         ).send({ from: account, gas: 3000000, gasPrice: '20000000000' });
 
-        alert(`Thêm sản phẩm thành công với ID: ${generatedId}`);
+        alert(`Thêm sản phẩm thành công với ID: ${upc}`);
         // Có thể điều hướng hoặc hiển thị QR/barcode ở đây
       } catch (error) {
         console.error("Giao dịch thất bại:", error);
@@ -83,6 +107,33 @@ export const AddProduct = () => {
       }
     }
   };
+
+
+    const handleDownloadBarcode = () => {
+      const svgElement = barcodeRef.current;
+      if (!svgElement) return;
+
+      const canvas = document.createElement("canvas");
+      const svgString = new XMLSerializer().serializeToString(svgElement);
+      const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+
+        const pngUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = `${productId}.png`;
+        link.href = pngUrl;
+        link.click();
+      };
+      img.src = url;
+    };
 
   return (
     <div className="add-product">
@@ -144,17 +195,28 @@ export const AddProduct = () => {
                 onChange={(e) => setManufactureDate(e.target.value)}
               />
             </div>
+            {productId && (
+              <div className="frame-7" style={{ textAlign: "center", marginTop: "20px" }}
+                onMouseEnter={() => setShowDownload(true)}
+                onMouseLeave={() => setShowDownload(false)}
+              >
+                <h4>Barcode:</h4>
+                <svg ref={barcodeRef}/>
+                {showDownload && (
+                  <button
+                    onClick={handleDownloadBarcode}
+                    className="btn-download"
+                  >
+                    Tải mã vạch
+                  </button>)}
+
+              </div>
+            )}
 
             {/* Nút thêm sản phẩm */}
             <button className="btn-start" onClick={handleAddProduct}>
               <div className="text-wrapper-3">Add</div>
             </button>
-            {productId && (
-              <div style={{ marginTop: "30px", textAlign: "center" }}>
-                <h4>Mã vạch sản phẩm:</h4>
-                <svg ref={barcodeRef}></svg>
-              </div>
-            )}
           </div>
         </div>
       </div>

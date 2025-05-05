@@ -14,7 +14,7 @@ export const Information = () => {
   // Kết nối blockchain và hợp đồng thông minh
   useEffect(() => {
     async function loadBlockchainData() {
-      const web3 = new Web3("http://localhost:9545"); // Kết nối với Ganache
+      const web3 = new Web3("http://192.168.1.191:9545"); // Kết nối với Ganache
 
       const networkId = 5777; // ID mạng blockchain
       const networkData = ProductAuthenticity.networks[networkId]; // Dữ liệu mạng của hợp đồng thông minh
@@ -48,7 +48,7 @@ export const Information = () => {
               const temp_product = {
                 name: result[0],
                 manufacturer: result[1],
-                manufactureDate: new Date(result[2] * 1000).toISOString().slice(0, 10)
+                manufactureDate: new Date(Number(result[2]) * 1000).toUTCString()
               };
 
               console.log("Queried product:", temp_product);
@@ -104,7 +104,7 @@ export const Information = () => {
                 />
 
                 <div className="text-container">
-                  <div className="headline">Name Product</div>
+                  <div className="headline"><b>Name Product</b></div>
                   <p className="supporting-text">{product?.name || "N/A"}</p>
                 </div>
               </div>
@@ -118,7 +118,7 @@ export const Information = () => {
                 />
 
                 <div className="text-container">
-                  <div className="headline-2">Date of manufacture</div>
+                  <div className="headline-2"><b>Date of manufacture</b></div>
                   <p className="supporting-text">{product?.manufactureDate || "N/A"}</p>
                 </div>
               </div>
@@ -132,7 +132,7 @@ export const Information = () => {
                 />
 
                 <div className="text-container">
-                  <div className="headline-2">Manufacturer</div>
+                  <div className="headline-2"><b>Manufacturer</b></div>
                   <p className="supporting-text">{product?.manufacturer || "N/A"}</p>
                 </div>
               </div>

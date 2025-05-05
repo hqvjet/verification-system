@@ -183,6 +183,21 @@
     top: 558px;
     width: 138px;
   }
+
+  .add-product .btn-download {
+    cursor: pointer;
+    border: 3px solid;
+    border-color: #145ab5;
+    border-radius: 58px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-weight: bold;
+
+  }
   
   .add-product .text-wrapper-3 {
     color: #000000;

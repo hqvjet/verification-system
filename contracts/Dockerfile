@@ -7,9 +7,8 @@ WORKDIR /contracts
 # Install Truffle globally
 RUN npm install -g truffle
 
-# Copy rest of the code
 COPY . .
 
 RUN chmod +x ./wait-for-ganache.sh
 
-CMD ['sh']
+CMD ["sh"]

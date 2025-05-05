@@ -12,16 +12,14 @@ import { AddProduct } from "./screens/AddProduct/addproduct"; // Import AddProdu
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <Router>
       <Routes>
-        <Route path="/" element={<Start />} /> {/* Trang Start */}
         <Route path="/home" element={<Home />} /> {/* Trang Home */}
-        <Route path="/information" element={<Information />} /> {/* Route Information */}
+        <Route path="/information" element={<Information />} /> {/* Trang Information */}
+        <Route path="/" element={<Start />} /> {/* Trang Start */}
         <Route path="/addproduct" element={<AddProduct />} /> {/* Route AddProduct */}
       </Routes>
     </Router>
-  </React.StrictMode>
 );
 
 reportWebVitals();

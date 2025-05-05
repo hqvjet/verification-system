@@ -1,69 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import Quagga from "@ericblade/quagga2";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BarcodeScanner from "react-qr-barcode-scanner/dist/BarcodeScanner.js"; // Import BarcodeScannerComponent
 import "./style.css";
 
 export const Home = () => {
-  const videoRef = useRef(null); // Tạo tham chiếu đến thẻ video
   const navigate = useNavigate(); // Khởi tạo hook điều hướng
-  const [scannedCode, setScannedCode] = useState("");
+  const [scannedCode, setScannedCode] = useState(""); // State để lưu mã quét
 
-  useEffect(() => {
-    const startScanner = async () => {
-      try {
-        await navigator.mediaDevices.getUserMedia({ video: true });
+  const handleScan = (result) => {
+    if (result) {
+      const codeResult = result.text; // Lấy kết quả mã quét
+      console.log("Scanned code:", codeResult);
+      setScannedCode(codeResult); // Lưu mã vào state
+      navigate(`/information?id=${encodeURIComponent(codeResult)}`); // Điều hướng đến trang thông tin sản phẩm
+    }
+  };
 
-        Quagga.init({
-          inputStream: {
-            type: "LiveStream",
-            target: videoRef.current,
-            constraints: {
-              width: 276,
-              height: 278,
-              facingMode: "environment"
-            }
-          },
-          decoder: {
-            readers: ["code_128_reader", "ean_reader", "ean_8_reader", "upc_reader"]
-          }
-        }, (err) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          Quagga.start();
-        });
-
-        Quagga.onDetected((result) => {
-          const code = result.codeResult.code;
-          console.log("Scanned code:", code);
-          setScannedCode(code);
-
-          // Stop quagga and điều hướng
-          Quagga.stop();
-          navigate(`/information?id=${encodeURIComponent(code)}`);
-        });
-
-      } catch (error) {
-        console.error("Camera access error:", error);
-      }
-    };
-
-    startScanner();
-
-    return () => {
-      Quagga.stop();
-    };
-  }, [navigate]);
-
-    const handleNavigateToInformation = () => {
-        // Need to do scan action to get product id
-        const product_id = "1";
-        navigate(`/information?id=${encodeURIComponent(product_id)}`); // Điều hướng đến trang Information
-    };
-    const handleNavigateToAddProduct = () => {
-        navigate("/addproduct"); // Điều hướng đến trang AddProduct
-    };
+  const handleError = (err) => {
+    console.error("Barcode scanning error:", err);
+  };
 
   return (
     <div className="home">
@@ -77,13 +32,11 @@ export const Home = () => {
                   alt="Clarity"
                   src="https://c.animaapp.com/c8N46bgw/img/clarity-image-gallery-solid.svg"
                 />
-
                 <img
                   className="vector"
                   alt="Vector"
                   src="https://c.animaapp.com/c8N46bgw/img/vector.svg"
                 />
-
                 <img
                   className="material-symbols"
                   alt="Material symbols"
@@ -95,14 +48,26 @@ export const Home = () => {
 
           <div className="place-scan">
             <div className="overlap">
-              {/* Thay thế div camera bằng video */}
               <div className="camera">
-                <div
-                  ref={videoRef}
-                  // autoPlay
-                  // playsInline
-                  // muted
-                  // style={{ width: "200px", height: "278px" }}
+                {/* Sử dụng BarcodeScannerComponent thay cho video */}
+                <BarcodeScanner
+                  onUpdate={(err, result) => {
+                    if (result) {
+                      handleScan(result);
+                    }
+                    if (err) {
+                      handleError(err);
+                    }
+                  }}
+                  facingMode="environment" // Chế độ camera phía sau
+                  // videoStyle={{ width: "100%", height: "100%" }}
+                  barcodeFormat={[
+                    "code_128_reader",
+                    "ean_reader",
+                    "ean_8_reader",
+                    "upc_reader",
+                    // Thêm các định dạng khác nếu cần
+                  ]}
                 />
               </div>
 
@@ -117,17 +82,19 @@ export const Home = () => {
           <div className="overlap-wrapper">
             <div className="overlap-2">
               <div className="rectangle" />
-              <div className="add-product" >
-              <img
-                className="add-product-img"
-                alt="Add Product"
-                src="https://cdn-icons-png.flaticon.com/512/992/992651.png"
-                onClick={handleNavigateToAddProduct} // Điều hướng khi click
-              />
+              <div className="add-product">
+                <img
+                  className="add-product-img"
+                  alt="Add Product"
+                  src="https://cdn-icons-png.flaticon.com/512/992/992651.png"
+                  onClick={() => navigate("/addproduct")}
+                />
               </div>
               <div className="group-2">
                 <div className="div-wrapper">
-                  <div className="text-wrapper" onClick={handleNavigateToInformation}>Generate</div>
+                  <div className="text-wrapper" onClick={() => navigate(`/information?id=${encodeURIComponent(scannedCode)}`)}>
+                    Generate
+                  </div>
                 </div>
 
                 <div className="group-3">
@@ -148,17 +115,16 @@ export const Home = () => {
               />
 
               <img
-                  className="btn-camera"
-                  alt="Btn camera"
-                  src="https://c.animaapp.com/c8N46bgw/img/btn-camera@2x.png"
-                  onClick={handleNavigateToInformation} // Điều hướng khi click
-                />
+                className="btn-camera"
+                alt="Btn camera"
+                src="https://c.animaapp.com/c8N46bgw/img/btn-camera@2x.png"
+                onClick={() => navigate(`/information?id=${encodeURIComponent(scannedCode)}`)}
+              />
             </div>
-
           </div>
-          
         </div>
       </div>
     </div>
   );
 };
+
