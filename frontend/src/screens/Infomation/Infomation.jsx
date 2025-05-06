@@ -14,7 +14,7 @@ export const Information = () => {
   // Kết nối blockchain và hợp đồng thông minh
   useEffect(() => {
     async function loadBlockchainData() {
-      const web3 = new Web3("http://192.168.1.191:9545"); // Kết nối với Ganache
+      const web3 = new Web3("http://localhost:9545"); // Kết nối với Ganache
 
       const networkId = 5777; // ID mạng blockchain
       const networkData = ProductAuthenticity.networks[networkId]; // Dữ liệu mạng của hợp đồng thông minh
